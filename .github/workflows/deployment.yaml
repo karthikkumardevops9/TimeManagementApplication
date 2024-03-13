@@ -1,0 +1,42 @@
+name: Push image to Amazon ECR and deploy to ECS
+
+
+on:
+  push:
+    branches:
+      - timeapp
+      
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: arn:aws-cn:iam::${{ vars.AWS_ACCONT_ID }}:role/my-github-actions-role
+
+      - name: Verify AWS Account Identity
+        run: |
+          aws sts get-caller-identity
+
+
+      # - name: Build, tag and Push image to Amazon ECR
+      #   id: build-and-tag-docker-image
+      #   working-directory: ./app
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
+      #     IMAGE_TAG: git-${{ steps.vars.outputs.sha_short }}
+      #   run: |
+      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      #     echo "IMAGE_URI=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
