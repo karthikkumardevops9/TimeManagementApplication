@@ -14,7 +14,7 @@
 # 4. Login to running container (to update config (vi config/app.json): 
 #	docker exec -ti --user root alpine_timeoff /bin/sh
 # --------------------------------------------------------------------
-FROM alpine:latest as dependencies
+FROM node:10-alpine as dependencies
 
 RUN apk add --no-cache \
     nodejs npm 
@@ -22,7 +22,7 @@ RUN apk add --no-cache \
 COPY package.json  .
 RUN npm install 
 
-FROM alpine:latest
+FROM node:10-alpine
 
 LABEL org.label-schema.schema-version="1.0"
 LABEL org.label-schema.docker.cmd="docker run -d -p 3000:3000 --name alpine_timeoff"
