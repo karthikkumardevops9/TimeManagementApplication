@@ -4,8 +4,7 @@ name: Push image to Amazon ECR and deploy to ECS
 on:
   push:
     branches:
-      - main
-      - timeapp
+     
 
 
 jobs:
