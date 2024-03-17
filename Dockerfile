@@ -33,6 +33,9 @@ RUN apk add --no-cache \
     python3 \
     py3-pip
 
+# Set PYTHON environment variable
+ENV PYTHON /usr/bin/python3    
+
 RUN adduser --system app --home /app
 USER app
 WORKDIR /app
