@@ -156,7 +156,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     {
       name      = "timemanagement-app"
       image     = "891377163697.dkr.ecr.us-east-1.amazonaws.com/time-management-app:latest"
-      cpu       = 256
+      cpu       = 500
       memory    = 512
       essential = true
       portMappings = [
