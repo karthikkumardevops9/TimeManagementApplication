@@ -63,7 +63,7 @@ resource "aws_launch_template" "ecs_lt" {
   instance_type = "t3.medium"
 
   # key_name               = "teammanagementkeypair"
-  vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
+  vpc_security_group_ids = [aws_security_group.security_group.id]
   iam_instance_profile {
      arn = aws_iam_instance_profile.ecs_role.arn 
   }
