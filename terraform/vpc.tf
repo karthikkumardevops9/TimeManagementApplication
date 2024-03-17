@@ -42,7 +42,7 @@ variable "azs" {
 }
 
 resource "aws_security_group" "ec2_security_group" {
-  name   = "ec2-security-group"
+  name   = "ec2_security_group"
   vpc_id = module.vpc.vpc_id
 
 
