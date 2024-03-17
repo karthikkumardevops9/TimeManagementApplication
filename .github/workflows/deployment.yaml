@@ -72,18 +72,18 @@ jobs:
         working-directory: ./terraform
         run: terraform validate
           
-      - name: Terraform Plan
-        id: plan
-        working-directory: ./terraform
-        run: terraform plan
+      # - name: Terraform Plan
+      #   id: plan
+      #   working-directory: ./terraform
+      #   run: terraform plan
       
-      - name: Terraform apply
-        id: apply
-        working-directory: ./terraform
-        run: terraform apply -auto-approve
+      # - name: Terraform apply
+      #   id: apply
+      #   working-directory: ./terraform
+      #   run: terraform apply -auto-approve
       
-    # - name: Terraform destroy
-    #     id: destroy
-    #     working-directory: ./terraform
-    #     run: terraform destroy -auto-approve
+      - name: Terraform destroy
+        id: destroy
+        working-directory: ./terraform
+        run: terraform destroy -auto-approve
      
