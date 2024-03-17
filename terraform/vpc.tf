@@ -95,6 +95,15 @@ resource "aws_security_group" "security_group" {
     description = "HttpPortForALB"
   }
 
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    self        = "false"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "ContainerPort"
+  }
+
  egress {
     from_port   = 0
     to_port     = 0
