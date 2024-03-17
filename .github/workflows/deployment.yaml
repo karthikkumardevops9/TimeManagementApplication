@@ -4,18 +4,15 @@ name: Push image to Amazon ECR and deploy to ECS
 on:
   push:
     branches:
-     
-
+      - development
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
-
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4.0.1
@@ -28,6 +25,13 @@ jobs:
         run:
           aws sts get-caller-identity
 
+      # - name: Create S3 Bucket
+      #   run: aws s3api create-bucket --bucket karthik-s3-teammanagementapp --region ${{ secrets.AWS_REGION }}
+
+
+      # - name: Create ECR Repository
+      #   run: aws ecr create-repository --repository-name time-management-app
+
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2.0.1
         id: login-ecr
@@ -38,14 +42,48 @@ jobs:
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
 
-      # - name: Build, tag and Push image to Amazon ECR
-      #   id: build-and-tag-docker-image
-      #   working-directory: ./app
-      #   env:
-      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      #     ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
-      #     IMAGE_TAG: git-${{ steps.vars.outputs.sha_short }}
-      #   run: |
-      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-      #     echo "IMAGE_URI=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+      - name: Build, tag and Push image to Amazon ECR
+        id: build-and-tag-docker-image        
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "IMAGE_URI=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.7.5      
+
+      - name: Terraform Fmt
+        id: fmt
+        run: terraform fmt -check -diff     
+
+      - name: Terraform Init
+        id: init
+        working-directory: ./terraform
+        run: terraform init
+      
+      - name: Terraform Validate
+        id: validate
+        working-directory: ./terraform
+        run: terraform validate
+          
+      - name: Terraform Plan
+        id: plan
+        working-directory: ./terraform
+        run: terraform plan
+      
+      - name: Terraform apply
+        id: apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve
+      
+    # - name: Terraform destroy
+    #     id: destroy
+    #     working-directory: ./terraform
+    #     run: terraform destroy -auto-approve
+     

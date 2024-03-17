@@ -37,9 +37,6 @@ resource "aws_ecs_cluster_capacity_providers" "timemanagementecs" {
   }
 }
 
-
-# Define the ECS task definition for the service
-# Update the ECS task definition to use a different network mode (e.g., awsvpc)
 ########################################################################################################################
 ## Create service-linked role used by the ECS Service to manage the ECS Cluster
 ########################################################################################################################
@@ -152,15 +149,9 @@ resource "aws_iam_role" "ecs_task_iam_role" {
 
 resource "aws_ecs_task_definition" "ecs_task_definition" {
   family             = "timemanagement-ecs-task"
-  network_mode       = "awsvpc"  # Update network mode
-  # execution_role_arn = "arn:aws:iam::891377163697:role/timemanagement-ecs-task-execution-role"
+  network_mode       = "awsvpc"  # Update network mode  
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
-  task_role_arn      = aws_iam_role.ecs_task_iam_role.arn
-  # cpu                = 256
-  # runtime_platform {
-  #   operating_system_family = "LINUX"
-  #   cpu_architecture        = "X86_64"
-  # }
+  task_role_arn      = aws_iam_role.ecs_task_iam_role.arn  
   container_definitions = jsonencode([
     {
       name      = "timemanagement-app"
@@ -187,12 +178,8 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   ])
 }
 
-# Ensure your target group is configured for IP-based routing
-
-# Remove network configuration from the ECS service
 resource "aws_ecs_service" "ecs_service" {
-  name            = "timemanagement-ecs-service"
-  # iam_role        = aws_iam_role.ecs_service_role.arn
+  name            = "timemanagement-ecs-service"  
   cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.ecs_task_definition.arn
   desired_count   = 2
@@ -201,19 +188,7 @@ resource "aws_ecs_service" "ecs_service" {
     subnets         = tolist(module.vpc.private_subnets)
     security_groups = [aws_security_group.security_group.id]
   }
-
-
-  # Remove network_configuration block
-
-  # force_new_deployment = true
-  # placement_constraints {
-  #   type = "distinctInstance"
-  # }
-
-  # triggers = {
-  #   redeployment = timestamp()
-  # }
-
+ 
   capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.ecs_capacity_provider.name
     base              = 1
@@ -235,21 +210,7 @@ resource "aws_ecs_service" "ecs_service" {
     container_name   = "timemanagement-app"
     container_port   = 3000
   }
-
-  # depends_on = [aws_autoscaling_group.ecs_asg]
+  
 }
 
-
-# resource "aws_ecr_repository" "timeoff_management_app" {
-#   name                 = "timeoff-management-app"
-#   image_tag_mutability = "MUTABLE"
-
-#   image_scanning_configuration {
-#     scan_on_push = true
-#   }
-
-#   tags = {
-#     Environment = "development"
-#   }
-# }
 

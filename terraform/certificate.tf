@@ -6,14 +6,11 @@
 resource "aws_acm_certificate" "cloudfront_certificate" {
   domain_name               = "prod.${var.domain_name}"
   validation_method         = "DNS"
-#   subject_alternative_names = ["*.${var.domain_name}"]
-
 
  tags = {
     Name = "timemanagement"
   }
 }
-
 
 resource "aws_acm_certificate_validation" "cloudfront_certificate" {
   certificate_arn         = aws_acm_certificate.cloudfront_certificate.arn

@@ -71,7 +71,7 @@ resource "aws_wafv2_web_acl" "WafWebAcl-alb" {
     }
   }
   rule {
-    name = "AWSManagedWafRule4"
+    name = "AWSManagedRulesSQLiRule"
     priority = 4
     override_action {
       none {
@@ -85,7 +85,7 @@ resource "aws_wafv2_web_acl" "WafWebAcl-alb" {
     }
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name = "AWSManagedWafRule4"
+      metric_name = "AWSManagedRulesSQLiRule"
       sampled_requests_enabled = true
     }
   }
