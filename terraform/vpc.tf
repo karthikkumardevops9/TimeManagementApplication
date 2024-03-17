@@ -55,7 +55,6 @@ resource "aws_security_group" "ec2_security_group" {
     description = "any"
   }
 
-
  egress {
     from_port   = 0
     to_port     = 0
@@ -76,8 +75,16 @@ resource "aws_security_group" "security_group" {
     self        = "false"
     cidr_blocks = ["0.0.0.0/0"]
     description = "any"
-  }
+  },
 
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    self        = "false"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "any"
+  }
 
  egress {
     from_port   = 0
