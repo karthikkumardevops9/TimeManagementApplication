@@ -186,7 +186,7 @@ resource "aws_ecs_service" "ecs_service" {
 
   network_configuration {
     subnets         = tolist(module.vpc.private_subnets)
-    security_groups = [aws_security_group.security_group.id]
+    security_groups = [aws_security_group.ec2_security_group.id]
   }
  
   capacity_provider_strategy {
