@@ -78,16 +78,16 @@ resource "aws_security_group" "security_group" {
   vpc_id = module.vpc.vpc_id
 
 
- ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    self        = "false"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "HttpsPortForALB"
-  }
+#  ingress {
+  #   from_port   = 443
+  #   to_port     = 443
+  #   protocol    = "tcp"
+  #   self        = "false"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  #   description = "HttpsPortForALB"
+  # }
 
-  ingress {
+ ingress {
     from_port   = 0
     to_port     = 0
     protocol    = -1
@@ -96,14 +96,14 @@ resource "aws_security_group" "security_group" {
     description = "any"
   }
 
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    self        = "false"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "HttpPortForALB"
-  }
+  # ingress {
+  #   from_port   = 80
+  #   to_port     = 80
+  #   protocol    = "tcp"
+  #   self        = "false"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  #   description = "HttpPortForALB"
+  # }
   
 
  egress {
