@@ -17,13 +17,10 @@
 FROM node:10-alpine as dependencies
 
 RUN apk add --no-cache \
-    nodejs npm \
-    python3 \
-    make \
-    g++
+    nodejs npm 
 
 COPY package.json  .
-RUN npm install --python=python3
+RUN npm install 
 
 FROM node:10-alpine
 
@@ -32,8 +29,7 @@ LABEL org.label-schema.docker.cmd="docker run -d -p 3000:3000 --name alpine_time
 
 RUN apk add --no-cache \
     nodejs npm \
-    vim \
-    python3
+    vim
 
 RUN adduser --system app --home /app
 USER app
