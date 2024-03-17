@@ -29,12 +29,7 @@ LABEL org.label-schema.docker.cmd="docker run -d -p 3000:3000 --name alpine_time
 
 RUN apk add --no-cache \
     nodejs npm \
-    vim \
-    python3 \
-    py3-pip
-
-# Set PYTHON environment variable
-ENV PYTHON /usr/bin/python3    
+    vim
 
 RUN adduser --system app --home /app
 USER app
