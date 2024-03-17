@@ -41,37 +41,37 @@ variable "azs" {
   default     = ["us-east-1a", "us-east-1b"]
 }
 
-# resource "aws_security_group" "ec2_security_group" {
-#   name   = "ec2_security_group"
-#   vpc_id = module.vpc.vpc_id
+resource "aws_security_group" "ec2_security_group" {
+  name   = "ec2_security_group"
+  vpc_id = module.vpc.vpc_id
 
 
-#   ingress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     self        = "false"
-#     cidr_blocks = ["0.0.0.0/0"]
-#     description = "ContainerPort"
-#   }
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    self        = "false"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "ContainerPort"
+  }
 
-#   # ingress {
-#   #   from_port   = 0
-#   #   to_port     = 0
-#   #   protocol    = "icmp"
-#   #   self        = "false"
-#   #   cidr_blocks = ["0.0.0.0/0"]
-#   #   description = "ContainerPort"
-#   # }
+  # ingress {
+  #   from_port   = 0
+  #   to_port     = 0
+  #   protocol    = "icmp"
+  #   self        = "false"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  #   description = "ContainerPort"
+  # }
 
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#     description = "All outbound traffic"
-#   }
-# }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "All outbound traffic"
+  }
+}
 
 resource "aws_security_group" "security_group" {
   name   = "ecs-security-group"
