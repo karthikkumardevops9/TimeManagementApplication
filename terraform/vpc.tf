@@ -49,7 +49,16 @@ resource "aws_security_group" "ec2_security_group" {
  ingress {
     from_port   = 3000
     to_port     = 3000
-    protocol    = "ALL"
+    protocol    = "tcp"
+    self        = "false"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "ContainerPort"
+  }
+
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "icmp"
     self        = "false"
     cidr_blocks = ["0.0.0.0/0"]
     description = "ContainerPort"
@@ -71,7 +80,7 @@ resource "aws_security_group" "security_group" {
  ingress {
     from_port   = 443
     to_port     = 443
-    protocol    = "ALL"
+    protocol    = "tcp"
     self        = "false"
     cidr_blocks = ["0.0.0.0/0"]
     description = "HttpsPortForALB"
@@ -80,7 +89,7 @@ resource "aws_security_group" "security_group" {
   ingress {
     from_port   = 80
     to_port     = 80
-    protocol    = "ALL"
+    protocol    = "tcp"
     self        = "false"
     cidr_blocks = ["0.0.0.0/0"]
     description = "HttpPortForALB"
