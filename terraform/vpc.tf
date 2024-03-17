@@ -55,6 +55,15 @@ resource "aws_security_group" "ec2_security_group" {
     description = "ContainerPort"
   }  
 
+   ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    self        = "false"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "ContainerPort"
+  }  
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -70,23 +79,13 @@ resource "aws_security_group" "security_group" {
 
 
  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     self        = "false"
     cidr_blocks = ["0.0.0.0/0"]
     description = "HttpsPortForALB"
-  }
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    self        = "false"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "HttpPortForALB"
-  }
-  
+  }  
 
  egress {
     from_port   = 0
