@@ -4,7 +4,7 @@ name: Push image to Amazon ECR and deploy to ECS
 on:
   push:
     branches:
-      - development
+      
 
 jobs:
   deploy:
@@ -25,9 +25,7 @@ jobs:
         run:
           aws sts get-caller-identity # This prints account details of AWS IAM role
 
-      # - name: Create S3 Bucket
-      #   run: aws s3api create-bucket --bucket karthik-s3-teammanagementapp --region ${{ secrets.AWS_REGION }}
-
+     
 
       # - name: Create ECR Repository
       #   run: aws ecr create-repository --repository-name time-management-app
@@ -69,15 +67,15 @@ jobs:
         working-directory: ./terraform
         run: terraform validate
           
-      - name: Terraform Plan
-        id: plan
-        working-directory: ./terraform
-        run: terraform plan
+      # - name: Terraform Plan
+      #   id: plan
+      #   working-directory: ./terraform
+      #   run: terraform plan
       
-      - name: Terraform apply
-        id: apply
-        working-directory: ./terraform
-        run: terraform apply -auto-approve
+      # - name: Terraform apply
+      #   id: apply
+      #   working-directory: ./terraform
+      #   run: terraform apply -auto-approve
       
       # - name: Terraform destroy
       #   id: destroy
