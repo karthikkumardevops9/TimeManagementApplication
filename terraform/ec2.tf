@@ -134,7 +134,7 @@ resource "aws_lb_listener" "ecs_alb_listener" {
     redirect {
       port        = 443
       protocol    = "HTTPS"
-      status_code = "HTTP_301"
+      status_code = "HTTP_301" 
     }
   }
 }

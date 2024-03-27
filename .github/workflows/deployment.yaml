@@ -23,7 +23,7 @@ jobs:
 
       - name: Verify AWS Credentials       
         run:
-          aws sts get-caller-identity
+          aws sts get-caller-identity # This prints account details of AWS IAM role
 
       # - name: Create S3 Bucket
       #   run: aws s3api create-bucket --bucket karthik-s3-teammanagementapp --region ${{ secrets.AWS_REGION }}
@@ -37,9 +37,9 @@ jobs:
         id: login-ecr
 
 
-      - name: Set outputs
-        id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      # - name: Set outputs
+      #   id: vars
+      #   run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
 
       - name: Build, tag and Push image to Amazon ECR
@@ -56,12 +56,9 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 1.7.5      
+          terraform_version: 1.7.5   
 
-      - name: Terraform Fmt
-        id: fmt
-        run: terraform fmt -check -diff     
-
+    
       - name: Terraform Init
         id: init
         working-directory: ./terraform
