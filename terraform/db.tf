@@ -37,9 +37,7 @@ resource "aws_db_instance" "timemanagementDB" {
 resource "aws_db_instance" "replica" {
   replicate_source_db = aws_db_instance.timemanagementDB.identifier
   instance_class = "db.t3.medium"
-
-  db_subnet_group_name = aws_db_subnet_group.my_db_subnet_group.name
-
+ 
   backup_retention_period = 7
   backup_window = "03:00-04:00"
   maintenance_window = "mon:04:00-mon:04:30"
