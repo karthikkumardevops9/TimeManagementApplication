@@ -4,7 +4,7 @@ name: Push image to Amazon ECR and deploy to ECS
 on:
   push:
     branches:
-      - development
+      
 
 jobs:
   deploy:
@@ -25,9 +25,7 @@ jobs:
         run:
           aws sts get-caller-identity
 
-      - name: Create S3 Bucket
-        run: aws s3api create-bucket --bucket dinesh-s3-teammanagementapp --region ${{ secrets.AWS_REGION }}
-
+     
 
       # - name: Create ECR Repository
       #   run: aws ecr create-repository --repository-name time-management-app
